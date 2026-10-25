@@ -2,6 +2,9 @@
 (function () {
   'use strict';
 
+  // 0) JS ishlayotganini belgilaymiz — animatsiyalar faqat shu holatda yashiradi.
+  document.documentElement.classList.add('js');
+
   // 1) Hero rasmi yuklanmasa — "DE" bosh harflari ko‘rsatiladi.
   var photo = document.getElementById('heroPhoto');
   var fallback = document.getElementById('photoFallback');
@@ -83,7 +86,18 @@
     });
   }
 
-  // 6) Futerdagi yil.
+  // 6) Savol-javob akkordeon: bittasi ochilsa, qolganlari yopiladi.
+  var faqItems = document.querySelectorAll('.faq details');
+  faqItems.forEach(function (item) {
+    item.addEventListener('toggle', function () {
+      if (!item.open) return;
+      faqItems.forEach(function (other) {
+        if (other !== item) other.open = false;
+      });
+    });
+  });
+
+  // 7) Futerdagi yil.
   var year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
 })();
