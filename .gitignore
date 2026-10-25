@@ -1,0 +1,22 @@
+# Tizim fayllari
+.DS_Store
+Thumbs.db
+
+# Maxfiy ma'lumotlar — hech qachon repoga tushmasin
+.env
+.env.*
+*.key
+*.pem
+secrets.*
+
+# Bog'liqliklar va build natijalari
+node_modules/
+dist/
+build/
+*.log
+
+# Deploy arxivi (har safar qaytadan yig'iladi)
+site-deploy.zip
+
+# Lokal sozlamalar
+.claude/settings.local.json
