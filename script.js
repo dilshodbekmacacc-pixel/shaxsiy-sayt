@@ -14,7 +14,19 @@
     if (photo.complete && photo.naturalWidth === 0) showFallback();
   }
 
-  // 2) Scroll bo‘yicha bloklarni yumshoq chiqarish.
+  // 2) Ish kartalaridagi rasm yuklanmasa — nomi yozilgan panel qo‘yiladi.
+  document.querySelectorAll('img[data-fallback]').forEach(function (img) {
+    var swap = function () {
+      var ph = document.createElement('div');
+      ph.className = 'work-ph';
+      ph.textContent = img.getAttribute('data-fallback');
+      if (img.parentNode) img.parentNode.replaceChild(ph, img);
+    };
+    img.addEventListener('error', swap);
+    if (img.complete && img.naturalWidth === 0) swap();
+  });
+
+  // 3) Scroll bo‘yicha bloklarni yumshoq chiqarish.
   var items = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
@@ -30,7 +42,7 @@
     items.forEach(function (el) { el.classList.add('visible'); });
   }
 
-  // 3) Navigatsiya: scroll holati va faol bo‘lim.
+  // 4) Navigatsiya: scroll holati va faol bo‘lim.
   var nav = document.querySelector('.nav');
   var links = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
   var sections = links
@@ -52,7 +64,26 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // 4) Futerdagi yil.
+  // 5) Mobil menyu (burger).
+  var burger = document.getElementById('burger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  if (burger && mobileMenu) {
+    var setMenu = function (open) {
+      mobileMenu.hidden = !open;
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    burger.addEventListener('click', function () {
+      setMenu(mobileMenu.hidden);
+    });
+    mobileMenu.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') setMenu(false);
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 980) setMenu(false);
+    });
+  }
+
+  // 6) Futerdagi yil.
   var year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
 })();
